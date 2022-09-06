@@ -13,7 +13,7 @@ def printboard(row1):
 
 def replay_choice():
     choice = 'wrong'
-    acceptable_values = ['Y','y','N','n']
+    acceptable_values = ['Y','y','N','n','Yes','yes','No','no']
     while choice not in acceptable_values:
         choice = input("Keep Playing? (Y or N)")
         if choice not in acceptable_values:
@@ -25,7 +25,7 @@ def replay_choice():
 
 def start_game():
     choice = 'wrong'
-    acceptable_values = ['Y','y','N','n']
+    acceptable_values = ['Y','y','N','n','Yes','yes','No','no']
     while choice not in acceptable_values:
         choice = input("Do you want to play? Y(which is yes) or N(which is no)")
         if choice not in acceptable_values:
@@ -40,7 +40,7 @@ def insults_enabled(game_start):
         return False
     else:
         choice = 'wrong'
-        acceptable_values = ['Y','y','N','n']
+        acceptable_values = ['Y','y','N','n','Yes','yes','No','no']
         while choice not in acceptable_values:
             choice = input("Do you want insults enabled[beta]? Y(which is yes) or N(which is no)")
             if choice not in acceptable_values:
