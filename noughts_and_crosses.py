@@ -27,13 +27,28 @@ def start_game():
     choice = 'wrong'
     acceptable_values = ['Y','y','N','n']
     while choice not in acceptable_values:
-        choice = input("Do you want to play? (Y or N)")
+        choice = input("Do you want to play? Y(which is yes) or N(which is no)")
         if choice not in acceptable_values:
             print("Sorry, I don't understand, please choose Y or N")
     if choice == acceptable_values[0] or choice == acceptable_values[1]:
         return True
     else:
         return False
+
+def insults_enabled(game_start):
+    if game_start == False:
+        return False
+    else:
+        choice = 'wrong'
+        acceptable_values = ['Y','y','N','n']
+        while choice not in acceptable_values:
+            choice = input("Do you want insults enabled[beta]? Y(which is yes) or N(which is no)")
+            if choice not in acceptable_values:
+                print("Sorry, I don't understand, please choose Y or N")
+        if choice == acceptable_values[0] or choice == acceptable_values[1]:
+            return True
+        else:
+            return False
 
 def first_player_decision(player_1,player_2):
     decision = random.randint(0,1)
@@ -116,8 +131,13 @@ def draw_check(row):
         if value != orig_row[index]:
             check_row.append(value)
     return len(orig_row) == len(check_row)
-
+print(' _______')
+print('| [] [] |')
+print('|       |')
+print('| \___/ |')
+print('|_______|')
 replay = start_game()
+insult_value = insults_enabled(replay)
 while replay:
     #os.system("clear")
     player_1 = "Player 1"
@@ -129,6 +149,13 @@ while replay:
     first_player_choice,second_player_choice = nought_or_cross(first_player,second_player)
     current_player = first_player
     current_player_choice = first_player_choice
+    not_current_player = ''
+    if current_player == player_1:
+        not_current_player = player_2
+    else:
+        not_current_player = player_1
+    insult_enabled = ''
+    acceptable_values = ['Y','y','N','n']
     win = False
     while not win:
         printboard(row1)
@@ -140,17 +167,30 @@ while replay:
         else:
             row_1 = place_thing(current_player_choice,row1,position)
         draw = draw_check(row1)
-        if draw == True:
-            print('\u001b[31m' + "A draw has occurred!" + '\033[0m')
-            break
+
         win = win_check(row1,current_player_choice)
         if win == True:
-            print('\033[92m' + '\033[1m' + f"{current_player}, who is {current_player_choice}, has WON!" + '\033[0m')
+            if insult_value == True:
+                insults = ["rekt the other person", "destroyed the other person", "trapped the other person in a cage", "killed the scum", "cancelled the other person", "one shot the other player", "f*cked the other player", "turned the other player to dust", "beat the other player in a 1 v 1", "stabbed the other player in the head", "rip and teared the other player", "won in the rap battle"]
+                random_insult = random.choice(insults)
+                print('\033[92m' + '\033[1m' + f"{current_player}, who is {current_player_choice}, " + '\u001b[31m' + f"{random_insult}" + '\033[0m')
+            else:
+                print('\033[92m' + '\033[1m' + f"{current_player}, who is {current_player_choice}, has WON!" + '\033[0m')
+        elif draw == True:
+            insults = ["Please get better at the game", "You guys are bad", "Get GUD", "Learn programming dummy", "You guys are trash", "U guys be trash tho", "How many braincells do you have?", "U can't function guys", "too good 4 u" "abc"]
+            random_insult = random.choice(insults)
+            if insult_value == True:
+                print('\u001b[31m' + random_insult + '\033[0m')
+                break
+            else:
+                print('\u001b[31m' + "A draw has occurred" + '\033[0m')
+                break
         if current_player == first_player:
             current_player = second_player
             current_player_choice = second_player_choice
         elif current_player == second_player:
             current_player = first_player
             current_player_choice = first_player_choice
+
     printboard(row1)
     replay = replay_choice()
